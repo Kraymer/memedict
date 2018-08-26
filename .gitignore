@@ -5,6 +5,8 @@ __pycache__/
 
 # C extensions
 *.so
+.direnv
+.envrc
 
 # Distribution / packaging
 .Python
