@@ -6,7 +6,7 @@
 from setuptools import setup
 
 
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 
 setup(name='memedict',
     version=__version__ if not __version__.endswith('dev') else __version__ + str(int(time.time()),
