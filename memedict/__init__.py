@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 from difflib import SequenceMatcher
 
 __author__ = 'Fabrice Laporte <kraymer@gmail.com>'
-__version__ = '0.1.0-dev'
+__version__ = '1.0.0'
 
 SEARCH_SIMILARITY_THRESHOLD = .5
 
@@ -18,7 +18,7 @@ HEADERS = {'User-Agent': ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) Apple
 
 
 def search_meme(text):
-    """Return a meme url from a meme keywords.
+    """Return a meme name and url from a meme keywords.
     """
     r = requests.get('http://knowyourmeme.com/search?q=%s' % text, headers=HEADERS)
     soup = BeautifulSoup(r.text, 'html.parser')
@@ -38,4 +38,4 @@ def search(text):
         r = requests.get(url, headers=HEADERS)
         soup = BeautifulSoup(r.text, 'html.parser')
         entry = soup.find('h2', {'id': 'about'})
-        return(entry.next.next.next.text)
+        return '%s. %s' % (meme_name.split('/')[-1].title(), entry.next.next.next.text)
