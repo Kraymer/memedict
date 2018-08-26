@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 from difflib import SequenceMatcher
 
 
-SEARCH_SIMILARITY_THRESHOLD = .5
+SEARCH_SIMILARITY_THRESHOLD = .4
 
 HEADERS = {'User-Agent': ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 '
         '(KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36')}
@@ -32,7 +32,7 @@ def search(text):
     """
     text = ' '.join([x for x in text.split() if len(x) > 3])
     meme_name, url = search_meme(text)
-    if meme_name and SequenceMatcher(None, text, meme_name).ratio() > SEARCH_SIMILARITY_THRESHOLD:
+    if meme_name and SequenceMatcher(None, text, meme_name).ratio() >= SEARCH_SIMILARITY_THRESHOLD:
         r = requests.get(url, headers=HEADERS)
         soup = BeautifulSoup(r.text, 'html.parser')
         entry = soup.find('h2', {'id': 'about'})
