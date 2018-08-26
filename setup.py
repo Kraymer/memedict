@@ -8,7 +8,7 @@ import time
 
 from setuptools import setup
 
-VERSION = '1.0.1'
+VERSION = '1.0.3'
 DIRPATH = os.path.dirname(__file__)
 
 setup(name='memedict',
