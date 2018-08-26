@@ -8,8 +8,6 @@ import requests
 from bs4 import BeautifulSoup
 from difflib import SequenceMatcher
 
-__author__ = 'Fabrice Laporte <kraymer@gmail.com>'
-__version__ = '1.0.0'
 
 SEARCH_SIMILARITY_THRESHOLD = .5
 

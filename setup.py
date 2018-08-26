@@ -6,26 +6,11 @@
 from setuptools import setup
 
 
-def coerce_file(fn):
-    """Coerce .py file content to something useful for setuptools.setup()"""
-    import ast, os, re, time  # noqa
-    text = open(os.path.join(os.path.dirname(__file__), fn)).read()
-    if fn.endswith('.py'):  # extract version, docstring etc out of python file
-        mock = type('mock', (object,), {})()
-        for attr in ('version', 'author', 'author_email', 'license', 'url'):
-            regex = r'^__%s__\s*=\s*[\'"]([^\'"]*)[\'"]$' % attr
-            m = re.search(regex, text, re.MULTILINE)
-            setattr(mock, attr, m.group(1) if m else None)
-        mock.docstring = ast.get_docstring(ast.parse(text))
-        if mock.version.endswith('dev'):
-            mock.version += str(int(time.time()))
-        return mock
-    return text
-
+__version__ = '1.0.0'
 
 setup(name='memedict',
-    version=coerce_file('memedict/__init__.py').version,
-    description=coerce_file('memedict/__init__.py').docstring,
+    version=__version__ if not __version__.endswith('dev') else __version__ + str(int(time.time()),
+    description='Knowyourmeme.com definitions scraper',
     long_description=coerce_file('README.md'),
     author='Fabrice Laporte',
     author_email='kraymer@gmail.com',
