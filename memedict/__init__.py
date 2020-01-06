@@ -22,15 +22,22 @@ def search_meme(text):
     soup = BeautifulSoup(r.text, 'html.parser')
     memes_list = soup.find(class_='entry_list')
     if memes_list:
-        meme_path = memes_list.find('a', href=True)['href']
-        return meme_path.replace('-', ' '), 'https://knowyourmeme.com%s' % meme_path
-    return None, None
+        meme_paths = [meme['href'] for meme in memes_list.find_all('a', href=True)]
+        meme_names = [meme_path.replace('-', ' ') for meme_path in meme_paths]
+        meme_urls = ['https://knowyourmeme.com%s' % meme_path for meme_path in meme_paths]
+        return zip(meme_names, meme_urls)
+    return [(None, None)]
 
 
 def search(text):
     """Return a meme definition from a meme keywords.
     """
-    meme_name, url = search_meme(text)
+    meme_names_and_urls = search_meme(text)
+    sequence_match_ratios = [SequenceMatcher(None, text, meme_name_and_url[0]).ratio()
+                             for meme_name_and_url in meme_names_and_urls]
+    best_match = meme_names_and_urls[sequence_matches.index(max(sequence_matches))]
+    meme_name, url = best_match[0], best_match[1]
+
     if meme_name and SequenceMatcher(None, text, meme_name).ratio() >= SEARCH_SIMILARITY_THRESHOLD:
         r = requests.get(url, headers=HEADERS)
         soup = BeautifulSoup(r.text, 'html.parser')
